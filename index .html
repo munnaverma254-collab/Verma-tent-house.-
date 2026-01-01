@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verma Tent House Bill</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto; 
+        }
+        .container {
+            width: 210mm; /* A4 Width */
+            min-height: 297mm;
+            background: white;
+            margin: 0 auto;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border: 2px solid #333;
+            box-sizing: border-box;
+            position: relative;
+        }
+        /* Header Section */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .shop-title {
+            text-align: center;
+            color: #2c3e50;
+            position: relative;
+        }
+        .shop-title h1 {
+            margin: 5px 0;
+            font-size: 32px;
+            text-transform: uppercase;
+            color: #000080; /* Navy Blue like ink */
+        }
+        .address-box {
+            text-align: center;
+            border: 2px solid #000080;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 5px auto;
+            width: fit-content;
+            font-weight: bold;
+        }
+        .prop-date {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        /* Customer Details */
+        .customer-details {
+            margin: 10px 0;
+            border-bottom: 1px dotted #000;
+            padding-bottom: 5px;
+        }
+        .input-line {
+            border: none;
+            border-bottom: 1px dotted #333;
+            width: 70%;
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+        }
+
+        /* Main Table Grid */
+        .bill-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px; /* Slightly smaller font to fit extra column */
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 2px;
+            text-align: center;
+            height: 24px;
+        }
+        th {
+            background-color: #e0e0e0;
+            font-weight: bold;
+        }
+        .item-name {
+            text-align: left;
+            width: 35%; /* Reduced width to accommodate new column */
+        }
+        
+        /* Inputs inside table */
+        td input {
+            width: 100%;
+            border: none;
+            text-align: center;
+            font-family: inherit;
+            font-size: 12px;
+            background: transparent;
+            height: 100%;
+        }
+        td input:focus {
+            background-color: #eef;
+        }
+        /* Align text input left for Item Name */
+        td.item-name input {
+            text-align: left;
+        }
+
+        /* Footer Section */
+        .footer {
+            margin-top: 10px;
+            border: 1px solid #000;
+            padding: 10px;
+            font-size: 13px;
+        }
+        .terms ul {
+            padding-left: 20px;
+            margin: 5px 0;
+        }
+        .financials {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 20px;
+            margin-top: 20px;
+            align-items: flex-start;
+        }
+        .amount-box {
+            text-align: right;
+            width: 100%;
+        }
+        .amount-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        .amount-row input {
+            text-align: right;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 2px;
+        }
+
+        /* Signature Boxes */
+        .signature-section {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .sign-box {
+            border: 1px solid #000;
+            height: 60px;
+            width: 150px;
+            position: relative;
+            background: #fff;
+        }
+        .sign-label {
+            position: absolute;
+            bottom: 2px;
+            left: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* Buttons */
+        .btn-group {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: auto;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            z-index: 1000;
+        }
+        .action-btn {
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .btn-download { background-color: #27ae60; }
+        .btn-share { background-color: #2980b9; }
+
+        @media print {
+            body { margin: 0; padding: 0; background: white; overflow: hidden; }
+            .container { border: none; box-shadow: none; width: 100%; margin: 0; transform: scale(1); }
+            .btn-group { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="btn-group" data-html2canvas-ignore="true">
+    <button class="action-btn btn-share" onclick="shareImage()">📤 Share Image</button>
+    <button class="action-btn btn-download" onclick="downloadImage()">⬇️ Download Image</button>
+</div>
+
+<div class="container" id="invoice-area">
+    <!-- Header -->
+    <div class="header-top">
+        <span>!! श्री गणेशाय नमः !!</span>
+        <span>मो०- 9918691464, 7408832903</span>
+    </div>
+
+    <div class="shop-title">
+        <h1>वर्मा टेन्ट हाउस एण्ड समियाना</h1>
+        <div class="address-box">
+            ग्रा०+पो०- रघुनाथपुर, बलिया (उ०प्र०)
+        </div>
+    </div>
+
+    <div class="prop-date">
+        <span>प्रो० शिवनारायण वर्मा</span>
+        <span>दिनांक: <input type="date" style="font-family: inherit;"></span>
+    </div>
+
+    <!-- Customer Info -->
+    <div class="customer-details">
+        <p>नाम <input type="text" class="input-line" placeholder="ग्राहक का नाम"></p>
+        <p>पता <input type="text" class="input-line" placeholder="ग्राहक का पता"></p>
+        <p>मो० नं० <input type="text" class="input-line" placeholder="ग्राहक का मोबाइल नंबर"></p>
+    </div>
+
+    <!-- Main Lists -->
+    <div class="bill-grid">
+        <!-- Left Column -->
+        <div class="col-left">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:8%">क्र०</th>
+                        <th class="item-name">विवरण</th>
+                        <th style="width:12%">पिस</th>
+                        <th style="width:12%">रेट</th>
+                        <th style="width:15%">मूल्य</th>
+                        <th style="width:12%; font-size: 10px;">बाकी सामान</th> <!-- New Column Header -->
+                    </tr>
+                </thead>
+                <tbody id="table-left">
+                    <!-- Rows generated by JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-right">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:8%">क्र०</th>
+                        <th class="item-name">विवरण</th>
+                        <th style="width:12%">रेट</th>
+                        <th style="width:12%">पिस</th>
+                        <th style="width:15%">मूल्य</th>
+                        <th style="width:12%; font-size: 10px;">बाकी सामान</th> <!-- New Column Header -->
+                    </tr>
+                </thead>
+                <tbody id="table-right">
+                    <!-- Rows generated by JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Totals -->
+    <div style="display: flex; border: 1px solid black; border-top: none;">
+        <div style="width: 50%; display: flex; justify-content: flex-end; padding: 5px; border-right: 1px solid black;">
+            <strong>सामान का टोटल: </strong> <span id="total-left" style="margin-left: 10px; width: 60px;">0</span>
+            <!-- Spacer for visual alignment with columns above, tough to align perfectly without table logic but text align right works well enough -->
+            <span style="width: 40px;"></span> 
+        </div>
+        <div style="width: 50%; display: flex; justify-content: flex-end; padding: 5px;">
+            <strong>सामान का टोटल: </strong> <span id="total-right" style="margin-left: 10px; width: 60px;">0</span>
+            <span style="width: 40px;"></span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <strong>नोट:-</strong>
+        <div class="terms">
+            <ol>
+                <li>फर्म से समान ले जाने तथा वापस लाने का कुल किराया पार्टी को देना होगा।</li>
+                <li>बुकिंग कराते समय कुल राशि का 50% अग्रिम के रूप में जमा करना होगा।</li>
+                <li>आंधी तुफान वर्षा होने के कारण समान ले जाने में देर हो सकता है तथा समान नुकसान होने या खो जाने पर पार्टी को देय होगा।</li>
+            </ol>
+        </div>
+
+        <div class="financials">
+            <div style="width: 100%">
+                <p>देने का तारीख: <input type="date" id="date-give" onchange="calcFinal()" style="font-family: inherit; cursor:pointer;"></p>
+                <p>
+                    <strong>वापसी तारीख:</strong> 
+                    <input type="date" id="date-return" onchange="calcFinal()" style="font-family: inherit; cursor:pointer;">
+                    <span id="day-count" style="font-weight:bold; color: #d32f2f; margin-left: 10px;"></span>
+                </p>
+                
+                <div style="margin-top: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold;">
+                    <span>शर्त मंजूर:</span>
+                    <label style="cursor: pointer; display: flex; align-items: center;"><input type="radio" name="terms" value="yes" style="margin-right: 5px;"> हाँ (Yes)</label>
+                    <label style="cursor: pointer; display: flex; align-items: center;"><input type="radio" name="terms" value="no" style="margin-right: 5px;"> नहीं (No)</label>
+                </div>
+
+                <div class="signature-section">
+                    <div class="sign-box">
+                        <span class="sign-label">ग्राहक हस्ताक्षर</span>
+                    </div>
+                    <div class="sign-box">
+                        <span class="sign-label">गवाह हस्ताक्षर</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="amount-box">
+                <div class="amount-row">
+                    <span>सामान किराया (Per Day):</span>
+                    <input type="number" id="sub-total" readonly style="width: 100px; border:none; background:transparent;">
+                </div>
+                <div class="amount-row" style="border-bottom: 2px solid black; padding-bottom:5px; margin-bottom:5px;">
+                    <span>दिन (Days):</span>
+                    <input type="number" id="days-input" readonly value="1" style="width: 100px; border:none; background:transparent;">
+                </div>
+                <div class="amount-row">
+                    <span style="font-weight:bold;">कुल राशि (Total):</span>
+                    <input type="number" id="grand-total" readonly style="width: 100px; border: 1px solid #000;">
+                </div>
+                <div class="amount-row">
+                    <span>अग्रिम (Advance):</span>
+                    <input type="number" id="advance" oninput="calcFinal()" style="width: 100px; border-bottom: 1px solid #000;">
+                </div>
+                <div class="amount-row">
+                    <span style="color:red; font-weight:bold;">बकाया (Balance):</span>
+                    <input type="number" id="balance" readonly style="width: 100px; color:red; border:none; background:transparent;">
+                </div>
+                <div style="margin-top: 25px; text-align: center;">
+                    <div class="sign-box" style="margin-left: auto; height: 50px; width: 120px; border: none; border-bottom: 1px solid black;">
+                    </div>
+                    <span>ह० दुकानदार</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let leftItems = [
+        "टेन्ट (Tent)",
+        "कुर्सी फाइबर (Fiber Chair)",
+        "VIP कुर्सी (VIP Chair)",
+        "मेज (Table)",
+        "गोला मेज (Round Table)",
+        "चारपाई (Cot)",
+        "तोषक (Mattress)",
+        "तकिया (Pillow)",
+        "चादर (Bed Sheet)",
+        "रजाई (Quilt)",
+        "कम्बल (Blanket)",
+        "फोम गदा (Foam Mattress)",
+        "जाजिम (Floor Spreading)",
+        "दरी (Carpet/Rug)",
+        "चौकी (Wooden Stool/Chauki)",
+        "स्टेज (Stage)",
+        "कालीन (Carpet)",
+        "तिरपाल (Tarpaulin)",
+        "जयमाल सेट (Jaimal Set)",
+        "स्टाल (Stall)",
+        "गेट (Gate)",
+        "कनाट (Side Wall/Kanat)",
+        "मैट (Mat)",
+        "गणेश जी (Ganesh Ji Idol)",
+        "भगोना (Large Cooking Pot)",
+        "तासा (Large Basin)",
+        "किस्ती (Tray/Kisti)",
+        "बाल्टी (Bucket)",
+        "कल्छुल (Ladle)",
+        "चुल्हा (Stove/Chulha)",
+        "जग (Jug)",
+        "ड्रम (Drum)",
+        "बर्नल सेट (Burner Set)",
+        "पानी ट्रे (Water Tray)",
+        "डस्टबीन (Dustbin)",
+        "डोगा (Donga/Serving Bowl)",
+        "ट्रे (Tray)",
+        "गोला तासा (Round Basin)",
+        "नाव (Naav/Boat Shaped Vessel)"
+    ];
+
+    let rightItems = [
+        "समियाना (पाइप वाला)", "बिछवना हाफ", "रावती", "बाउन्डरी", "सिंघासन", 
+        "मण्डप", "दरी", "तिरपाल", "जेनरेटर", "राड", "हाइलोजन",
+        "", "", "", "", "", "", "", "", "", "", "" 
+    ];
+
+    const maxLen = Math.max(leftItems.length, rightItems.length);
+    while(rightItems.length < maxLen) {
+        rightItems.push("");
+    }
+    while(leftItems.length < maxLen) {
+        leftItems.push("");
+    }
+
+    function renderTable(id, items, startCount, isRightSide) {
+        const tbody = document.getElementById(id);
+        items.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            const rowNum = startCount + index;
+            
+            const side = isRightSide ? 'r' : 'l';
+            const pcsId = `qty_${side}_${index}`;
+            const rateId = `rate_${side}_${index}`;
+            const amtId = `amt_${side}_${index}`;
+            const nameId = `name_${side}_${index}`;
+            const extraId = `extra_${side}_${index}`;
+
+            let html = `<td>${rowNum}</td>`;
+            
+            if(isRightSide) {
+                 html += `<td class="item-name"><input type="text" id="${nameId}" value="${item}"></td>
+                         <td><input type="number" id="${rateId}" oninput="calcRow('${side}', ${index})"></td>
+                         <td><input type="text" id="${pcsId}" oninput="calcRow('${side}', ${index})"></td>
+                         <td><input type="number" id="${amtId}" readonly></td>
+                         <td><input type="number" id="${extraId}" placeholder=""></td>`; // New Column Input
+            } else {
+                html += `<td class="item-name"><input type="text" id="${nameId}" value="${item}"></td>
+                         <td><input type="text" id="${pcsId}" oninput="calcRow('${side}', ${index})"></td>
+                         <td><input type="number" id="${rateId}" oninput="calcRow('${side}', ${index})"></td>
+                         <td><input type="number" id="${amtId}" readonly></td>
+                         <td><input type="number" id="${extraId}" placeholder=""></td>`; // New Column Input
+            }
+            
+            tr.innerHTML = html;
+            tbody.appendChild(tr);
+        });
+    }
+
+    renderTable('table-left', leftItems, 1, false);
+    renderTable('table-right', rightItems, 1, true);
+
+    function calculateString(str) {
+        try {
+            let sanitized = str.toLowerCase().replace(/x/g, '*').replace(/[^-()\d/*+.]/g, '');
+            if (!sanitized) return 0;
+            return new Function('return ' + sanitized)();
+        } catch (e) {
+            return parseFloat(str) || 0;
+        }
+    }
+
+    function calcRow(side, index) {
+        const pcsInput = document.getElementById(`qty_${side}_${index}`).value;
+        const rate = parseFloat(document.getElementById(`rate_${side}_${index}`).value) || 0;
+        const itemName = document.getElementById(`name_${side}_${index}`).value.trim();
+        
+        let pcs = 0;
+        
+        if((itemName.includes("टेन्ट") || itemName.toLowerCase().includes("tent")) && 
+           (pcsInput.includes('*') || pcsInput.toLowerCase().includes('x'))) {
+            
+             let cleanInput = pcsInput.toLowerCase().replace(/x/g, '*');
+             let parts = cleanInput.split('*');
+             if (parts.length === 2 && !cleanInput.includes('+') && !cleanInput.includes('-')) {
+                 let l = parseFloat(parts[0]) || 0;
+                 let w = parseFloat(parts[1]) || 0;
+                 let area = l * w;
+                 pcs = area / 225;
+            } else {
+                 pcs = calculateString(pcsInput);
+            }
+        } 
+        else {
+            pcs = calculateString(pcsInput);
+        }
+
+        const total = pcs * rate;
+        document.getElementById(`amt_${side}_${index}`).value = total === 0 ? '' : Math.round(total * 100) / 100;
+        
+        calcFinal();
+    }
+
+    function calcFinal() {
+        let grandTotal = 0;
+        let leftTotal = 0;
+        let rightTotal = 0;
+
+        document.querySelectorAll('#table-left input[id^="amt_"]').forEach(input => {
+            leftTotal += parseFloat(input.value) || 0;
+        });
+        document.getElementById('total-left').innerText = leftTotal;
+
+        document.querySelectorAll('#table-right input[id^="amt_"]').forEach(input => {
+            rightTotal += parseFloat(input.value) || 0;
+        });
+        document.getElementById('total-right').innerText = rightTotal;
+
+        const subTotal = leftTotal + rightTotal;
+        document.getElementById('sub-total').value = subTotal;
+
+        const dateGive = document.getElementById('date-give').value;
+        const dateReturn = document.getElementById('date-return').value;
+        let days = 1;
+
+        if (dateGive && dateReturn) {
+            const d1 = new Date(dateGive);
+            const d2 = new Date(dateReturn);
+            const diffTime = d2 - d1;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            
+            if (diffDays > 0) {
+                days = diffDays;
+                document.getElementById('day-count').innerText = `(${days} दिन)`;
+            } else if (diffDays === 0) {
+                days = 1;
+                document.getElementById('day-count').innerText = `(1 दिन)`;
+            } else {
+                document.getElementById('day-count').innerText = `(गलत तारीख)`;
+            }
+        } else {
+            document.getElementById('day-count').innerText = "";
+        }
+        
+        document.getElementById('days-input').value = days;
+
+        grandTotal = subTotal * days;
+        document.getElementById('grand-total').value = grandTotal;
+
+        const advance = parseFloat(document.getElementById('advance').value) || 0;
+        document.getElementById('balance').value = grandTotal - advance;
+    }
+
+    function downloadImage() {
+        const element = document.getElementById('invoice-area');
+        const btn = document.querySelector('.btn-download');
+        const originalText = btn.innerText;
+        btn.innerText = "Generating...";
+
+        html2canvas(element, {
+            scale: 2, 
+            useCORS: true,
+            backgroundColor: "#ffffff"
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'verma_bill.png';
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+            btn.innerText = originalText;
+        }).catch(err => {
+            console.error("Image generation failed", err);
+            btn.innerText = "Error!";
+            setTimeout(() => btn.innerText = originalText, 2000);
+        });
+    }
+
+    function shareImage() {
+        const element = document.getElementById('invoice-area');
+        const btn = document.querySelector('.btn-share');
+        const originalText = btn.innerText;
+        btn.innerText = "Generating...";
+
+        html2canvas(element, {
+            scale: 2, 
+            useCORS: true,
+            backgroundColor: "#ffffff"
+        }).then(canvas => {
+            canvas.toBlob(blob => {
+                const file = new File([blob], "verma_bill.png", { type: "image/png" });
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Verma Tent House Bill',
+                        text: 'Please find the attached bill.',
+                        files: [file]
+                    }).then(() => {
+                        btn.innerText = "Shared!";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }).catch(err => {
+                        console.error('Error sharing:', err);
+                        btn.innerText = "Failed/Cancelled";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    });
+                } else {
+                    alert("Sharing is not supported on this browser/device. Please use Download.");
+                    btn.innerText = originalText;
+                }
+            });
+        }).catch(err => {
+            console.error("Image generation failed", err);
+            btn.innerText = "Error!";
+            setTimeout(() => btn.innerText = originalText, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
+
+
